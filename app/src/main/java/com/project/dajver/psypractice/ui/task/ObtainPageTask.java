@@ -14,22 +14,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.project.dajver.psypractice.etc.Constants.BASE_URL;
-import static com.project.dajver.psypractice.etc.Constants.LIST_OF_NEWS_LINK;
 
 /**
  * Created by gleb on 11/7/17.
  */
 
-public class ObtainPageTask extends AsyncTask<Void, Void, ArrayList<NewsModel>> {
+public class ObtainPageTask extends AsyncTask<String, Void, ArrayList<NewsModel>> {
 
     private OnDataObtainedListener onDataObtainedListener;
     private ArrayList<NewsModel> newsModels = new ArrayList<>();
 
     @Override
-    protected ArrayList<NewsModel> doInBackground(Void... params) {
+    protected ArrayList<NewsModel> doInBackground(String... params) {
         Document doc = null;
         try {
-            doc = Jsoup.connect(LIST_OF_NEWS_LINK).get();
+            doc = Jsoup.connect(params[0]).get();
         } catch (IOException e) {
             e.printStackTrace();
         }

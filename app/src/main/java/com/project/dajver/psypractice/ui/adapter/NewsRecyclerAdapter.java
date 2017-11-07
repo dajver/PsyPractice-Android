@@ -28,9 +28,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private OnItemClickListener onItemClickListener;
     private Context context;
 
-    public NewsRecyclerAdapter(Context context, List<NewsModel> newsModels) {
+    public NewsRecyclerAdapter(Context context) {
         this.context = context;
-        this.newsModels = newsModels;
+    }
+
+    public void addItem(NewsModel newsModel) {
+        newsModels.add(newsModel);
+        notifyDataSetChanged();
     }
 
     @Override
