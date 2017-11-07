@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Psy Practice</string>
+
+    <string-array name="drawerItems">
+        <item>Психологическое здоровье</item>
+        <item>Травмы</item>
+        <item>Психология отношений</item>
+        <item>Взрослые и дети</item>
+        <item>Зависимость</item>
+        <item>Работа и общество</item>
+        <item>Бизнес</item>
+        <item>Прочее</item>
+        <item>На приеме</item>
+    </string-array>
 </resources>

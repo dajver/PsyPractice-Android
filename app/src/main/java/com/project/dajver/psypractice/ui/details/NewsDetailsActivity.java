@@ -16,4 +16,9 @@ public class NewsDetailsActivity extends BaseActivity {
     public void onCreateView(Bundle savedInstanceState) {
 
     }
+
+    @Override
+    public boolean isDrawerBurgerVisible() {
+        return false;
+    }
 }

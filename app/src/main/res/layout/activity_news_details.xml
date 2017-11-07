@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <fragment
-        android:id="@+id/newsDetails"
-        android:name="com.project.dajver.psypractice.ui.details.NewsDetailsFragment"
+    <LinearLayout
+        android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_news_details"
-        android:layout_weight="0.1" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <fragment
+            android:id="@+id/newsDetails"
+            android:name="com.project.dajver.psypractice.ui.details.NewsDetailsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_news_details"
+            android:layout_weight="0.1" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/navigation_view"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:divider="@null" />
+
+</android.support.v4.widget.DrawerLayout>
