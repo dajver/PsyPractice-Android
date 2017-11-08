@@ -55,7 +55,6 @@ public class EndlessRecyclerView extends RecyclerView {
             pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 
             if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                Log.e("...", "Call Load More !");
                 if(onLoadMoreListener != null) {
                     onLoadMoreListener.onLoadMore();
                 }

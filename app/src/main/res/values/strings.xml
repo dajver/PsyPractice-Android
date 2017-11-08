@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Psy Practice</string>
 
+    <string name="news.title">Публикации</string>
     <string-array name="drawerItems">
         <item>Психологическое здоровье</item>
         <item>Травмы</item>

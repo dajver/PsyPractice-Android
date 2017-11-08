@@ -1,6 +1,7 @@
 package com.project.dajver.psypractice.ui.task;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.project.dajver.psypractice.ui.task.model.NewsModel;
 
@@ -28,6 +29,7 @@ public class ObtainPageTask extends AsyncTask<String, Void, ArrayList<NewsModel>
     protected ArrayList<NewsModel> doInBackground(String... params) {
         Document doc = null;
         try {
+            Log.e("LINK", "L: " + params[0]);
             doc = Jsoup.connect(params[0]).get();
         } catch (IOException e) {
             e.printStackTrace();

@@ -18,8 +18,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
-import static com.project.dajver.psypractice.etc.Constants.LIST_OF_NEWS_LINK;
-import static com.project.dajver.psypractice.etc.Constants.LIST_OF_NEWS_PAGE_LINK;
+import static com.project.dajver.psypractice.etc.Constants.INTENT_TITLE;
+import static com.project.dajver.psypractice.etc.Constants.LINK_PAGE;
+import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATIONS;
 
 /**
  * Created by gleb on 11/7/17.
@@ -34,6 +35,7 @@ public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataO
     ProgressBar progressBar;
 
     private NewsRecyclerAdapter newsRecyclerAdapter;
+    private String linkToPage;
     private int pageCounter = 1;
 
     @Override
@@ -48,7 +50,11 @@ public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataO
         recyclerView.setAdapter(newsRecyclerAdapter);
         recyclerView.setOnLoadMoreListener(this);
 
-        getNews(LIST_OF_NEWS_LINK);
+        Intent intent = context.getIntent();
+        linkToPage = intent.hasExtra(INTENT_LINK) ? intent.getExtras().getString(INTENT_LINK) : LIST_LAST_PUBLICATIONS;
+        ((NewsActivity) context).setActionBarTitle(intent.hasExtra(INTENT_TITLE) ? intent.getExtras().getString(INTENT_TITLE) : getString(R.string.news_title));
+
+        getNews(linkToPage);
     }
 
     private void getNews(String url) {
@@ -76,6 +82,6 @@ public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataO
     @Override
     public void onLoadMore() {
         pageCounter++;
-        getNews(LIST_OF_NEWS_PAGE_LINK + pageCounter);
+        getNews(linkToPage + LINK_PAGE + pageCounter);
     }
 }

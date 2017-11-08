@@ -1,5 +1,6 @@
 package com.project.dajver.psypractice;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.project.dajver.psypractice.ui.NewsActivity;
 import com.project.dajver.psypractice.ui.drawer.DrawerModel;
 import com.project.dajver.psypractice.ui.drawer.adapter.DrawerAdapter;
 
@@ -27,9 +29,22 @@ import static com.project.dajver.psypractice.etc.Constants.DRAWER_OLD_AND_YONG;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_ON_RECEPTION;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_OTHER;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_PSYCHO_HEALTH;
+import static com.project.dajver.psypractice.etc.Constants.DRAWER_PUBLICATIONS;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_RELATION;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_TRAUMA;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_WORK_AND_SOCIETY;
+import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
+import static com.project.dajver.psypractice.etc.Constants.INTENT_TITLE;
+import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATIONS;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_BUSINESS;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_DEPENDENCY;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_OLD_AND_YONG;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_ON_RECEPTION;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_OTHER;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_PSYCHO_HEALTH;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_RELATION;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_TRAUMAS;
+import static com.project.dajver.psypractice.etc.Constants.LIST_OF_WORK_AND_SOCIETY;
 
 /**
  * Created by gleb on 11/7/17.
@@ -84,7 +99,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         else
             drawerToggle.setHomeAsUpIndicator(R.mipmap.ic_drawer_back);
 
-        List<DrawerModel> drawerModels = new ArrayList<>();
+        final List<DrawerModel> drawerModels = new ArrayList<>();
+        drawerModels.add(new DrawerModel(getString(R.string.news_title)));
         for(String str : getResources().getStringArray(R.array.drawerItems))
             drawerModels.add(new DrawerModel(str));
 
@@ -93,35 +109,43 @@ public abstract class BaseActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(BaseActivity.this, NewsActivity.class);
+                intent.putExtra(INTENT_TITLE, drawerModels.get(i).getTitle());
                 switch (i) {
+                    case DRAWER_PUBLICATIONS:
+                        intent.putExtra(INTENT_LINK, LIST_LAST_PUBLICATIONS);
+                        break;
                     case DRAWER_PSYCHO_HEALTH:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_PSYCHO_HEALTH);
                         break;
                     case DRAWER_TRAUMA:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_TRAUMAS);
                         break;
                     case DRAWER_RELATION:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_RELATION);
                         break;
                     case DRAWER_OLD_AND_YONG:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_OLD_AND_YONG);
                         break;
                     case DRAWER_DEPENDENCY:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_DEPENDENCY);
                         break;
                     case DRAWER_WORK_AND_SOCIETY:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_WORK_AND_SOCIETY);
                         break;
                     case DRAWER_BUSINESS:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_BUSINESS);
                         break;
                     case DRAWER_OTHER:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_OTHER);
                         break;
                     case DRAWER_ON_RECEPTION:
-
+                        intent.putExtra(INTENT_LINK, LIST_OF_ON_RECEPTION);
                         break;
                 }
+                startActivity(intent);
+                finish();
+
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
