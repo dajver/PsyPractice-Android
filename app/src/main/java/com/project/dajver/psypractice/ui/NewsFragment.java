@@ -2,8 +2,8 @@ package com.project.dajver.psypractice.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
@@ -27,12 +27,12 @@ import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATION
  */
 
 public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataObtainedListener,
-        NewsRecyclerAdapter.OnItemClickListener, EndlessRecyclerView.OnLoadMoreListener {
+        NewsRecyclerAdapter.OnItemClickListener, EndlessRecyclerView.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recyclerView)
     EndlessRecyclerView recyclerView;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.swiperefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private NewsRecyclerAdapter newsRecyclerAdapter;
     private String linkToPage;
@@ -45,16 +45,22 @@ public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataO
 
     @Override
     public void onViewCreate(View view, Bundle savedInstanceState) {
-        newsRecyclerAdapter = new NewsRecyclerAdapter(context);
-        newsRecyclerAdapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(newsRecyclerAdapter);
-        recyclerView.setOnLoadMoreListener(this);
+        setupAdapter();
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         Intent intent = context.getIntent();
         linkToPage = intent.hasExtra(INTENT_LINK) ? intent.getExtras().getString(INTENT_LINK) : LIST_LAST_PUBLICATIONS;
         ((NewsActivity) context).setActionBarTitle(intent.hasExtra(INTENT_TITLE) ? intent.getExtras().getString(INTENT_TITLE) : getString(R.string.news_title));
 
         getNews(linkToPage);
+    }
+
+    private void setupAdapter() {
+        newsRecyclerAdapter = new NewsRecyclerAdapter(context);
+        newsRecyclerAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(newsRecyclerAdapter);
+        recyclerView.setOnLoadMoreListener(this);
     }
 
     private void getNews(String url) {
@@ -65,8 +71,8 @@ public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataO
 
     @Override
     public void onDataObtained(ArrayList<NewsModel> newsModels) {
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
 
         for(NewsModel model : newsModels)
             newsRecyclerAdapter.addItem(model);
@@ -83,5 +89,11 @@ public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataO
     public void onLoadMore() {
         pageCounter++;
         getNews(linkToPage + LINK_PAGE + pageCounter);
+    }
+
+    @Override
+    public void onRefresh() {
+        setupAdapter();
+        getNews(linkToPage);
     }
 }

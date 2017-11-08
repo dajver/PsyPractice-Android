@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.details.NewsDetailsActivity" />
+        <activity android:name=".ui.details.NewsDetailsActivity"
+            android:label="@string/news.details.title"/>
     </application>
 
 </manifest>

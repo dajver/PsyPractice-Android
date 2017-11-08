@@ -13,8 +13,10 @@ public class NewsDetailsActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreateView(Bundle savedInstanceState) {
+    public void onCreateView(Bundle savedInstanceState) { }
 
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 
     @Override
