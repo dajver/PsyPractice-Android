@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/ic_action_home"
+        android:title="@string/tabs.title.publications"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_specialist"
+        android:icon="@drawable/ic_action_specialists"
+        android:title="@string/tabs.title.specialists"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_video"
+        android:icon="@drawable/ic_action_videos"
+        android:title="@string/tabs.title.videos"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_event"
+        android:icon="@drawable/ic_action_events"
+        android:title="@string/tabs.title.events"
+        app:showAsAction="ifRoom" />
+</menu>

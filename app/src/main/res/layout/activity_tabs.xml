@@ -7,18 +7,27 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/newsDetails"
-            android:name="com.project.dajver.psypractice.ui.news.details.NewsDetailsFragment"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_news_details"
-            android:layout_weight="0.1" />
+            android:layout_weight="0.1">
+
+        </FrameLayout>
+
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="5dp"
+            app:itemBackground="@android:color/white"
+            app:menu="@menu/bottom_nav_menu" />
+
     </LinearLayout>
 
     <ListView

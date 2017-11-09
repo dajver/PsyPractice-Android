@@ -1,8 +1,8 @@
 package com.project.dajver.psypractice;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,12 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.project.dajver.psypractice.ui.NewsActivity;
-import com.project.dajver.psypractice.ui.drawer.DrawerModel;
-import com.project.dajver.psypractice.ui.drawer.adapter.DrawerAdapter;
+import com.project.dajver.psypractice.ui.news.NewsFragment;
+import com.project.dajver.psypractice.ui.news.drawer.DrawerModel;
+import com.project.dajver.psypractice.ui.news.drawer.adapter.DrawerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,6 @@ import static com.project.dajver.psypractice.etc.Constants.DRAWER_PUBLICATIONS;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_RELATION;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_TRAUMA;
 import static com.project.dajver.psypractice.etc.Constants.DRAWER_WORK_AND_SOCIETY;
-import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
-import static com.project.dajver.psypractice.etc.Constants.INTENT_TITLE;
 import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATIONS;
 import static com.project.dajver.psypractice.etc.Constants.LIST_OF_BUSINESS;
 import static com.project.dajver.psypractice.etc.Constants.LIST_OF_DEPENDENCY;
@@ -52,8 +49,6 @@ import static com.project.dajver.psypractice.etc.Constants.LIST_OF_WORK_AND_SOCI
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @BindView(R.id.mainView)
-    LinearLayout mainView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
@@ -72,23 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        drawerToggle = new ActionBarDrawerToggle(BaseActivity.this, drawerLayout, R.string.app_name, R.string.app_name) {
-            public void onDrawerClosed(View view) {
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-                mainView.setTranslationX(drawerView.getWidth() * slideOffset);
-                drawerLayout.bringChildToFront(drawerView);
-                drawerLayout.requestLayout();
-            }
-        };;
+        drawerToggle = new ActionBarDrawerToggle(BaseActivity.this, drawerLayout, R.string.app_name, R.string.app_name);
         drawerLayout.setDrawerListener(drawerToggle);
 
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -109,43 +88,43 @@ public abstract class BaseActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(BaseActivity.this, NewsActivity.class);
-                intent.putExtra(INTENT_TITLE, drawerModels.get(i).getTitle());
+                Fragment fragment = null;
                 switch (i) {
                     case DRAWER_PUBLICATIONS:
-                        intent.putExtra(INTENT_LINK, LIST_LAST_PUBLICATIONS);
+                        fragment = new NewsFragment().setInstance(LIST_LAST_PUBLICATIONS);
                         break;
                     case DRAWER_PSYCHO_HEALTH:
-                        intent.putExtra(INTENT_LINK, LIST_OF_PSYCHO_HEALTH);
+                        fragment = new NewsFragment().setInstance(LIST_OF_PSYCHO_HEALTH);
                         break;
                     case DRAWER_TRAUMA:
-                        intent.putExtra(INTENT_LINK, LIST_OF_TRAUMAS);
+                        fragment = new NewsFragment().setInstance(LIST_OF_TRAUMAS);
                         break;
                     case DRAWER_RELATION:
-                        intent.putExtra(INTENT_LINK, LIST_OF_RELATION);
+                        fragment = new NewsFragment().setInstance(LIST_OF_RELATION);
                         break;
                     case DRAWER_OLD_AND_YONG:
-                        intent.putExtra(INTENT_LINK, LIST_OF_OLD_AND_YONG);
+                        fragment = new NewsFragment().setInstance(LIST_OF_OLD_AND_YONG);
                         break;
                     case DRAWER_DEPENDENCY:
-                        intent.putExtra(INTENT_LINK, LIST_OF_DEPENDENCY);
+                        fragment = new NewsFragment().setInstance(LIST_OF_DEPENDENCY);
                         break;
                     case DRAWER_WORK_AND_SOCIETY:
-                        intent.putExtra(INTENT_LINK, LIST_OF_WORK_AND_SOCIETY);
+                        fragment = new NewsFragment().setInstance(LIST_OF_WORK_AND_SOCIETY);
                         break;
                     case DRAWER_BUSINESS:
-                        intent.putExtra(INTENT_LINK, LIST_OF_BUSINESS);
+                        fragment = new NewsFragment().setInstance(LIST_OF_BUSINESS);
                         break;
                     case DRAWER_OTHER:
-                        intent.putExtra(INTENT_LINK, LIST_OF_OTHER);
+                       fragment = new NewsFragment().setInstance(LIST_OF_OTHER);
                         break;
                     case DRAWER_ON_RECEPTION:
-                        intent.putExtra(INTENT_LINK, LIST_OF_ON_RECEPTION);
+                        fragment = new NewsFragment().setInstance(LIST_OF_ON_RECEPTION);
                         break;
                 }
-                startActivity(intent);
-                finish();
-
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });

@@ -4,6 +4,10 @@
     <string name="news.title">Публикации</string>
     <string name="news.details.title">Детали публикации</string>
 
+    <string name="tabs.title.publications">@string/news.title</string>
+    <string name="tabs.title.specialists">Специалисты</string>
+    <string name="tabs.title.videos">Видео</string>
+    <string name="tabs.title.events">Мероприятия</string>
 
     <string-array name="drawerItems">
         <item>Психологическое здоровье</item>

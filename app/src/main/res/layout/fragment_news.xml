@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.project.dajver.psypractice.ui.adapter.view.EndlessRecyclerView
+        <com.project.dajver.psypractice.ui.news.adapter.view.EndlessRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
