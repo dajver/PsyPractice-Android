@@ -10,7 +10,7 @@ import com.project.dajver.psypractice.R;
 import com.project.dajver.psypractice.ui.news.adapter.NewsRecyclerAdapter;
 import com.project.dajver.psypractice.ui.news.adapter.view.EndlessRecyclerView;
 import com.project.dajver.psypractice.ui.news.details.NewsDetailsActivity;
-import com.project.dajver.psypractice.ui.news.task.ObtainPageTask;
+import com.project.dajver.psypractice.ui.news.task.FetchNewsTask;
 import com.project.dajver.psypractice.ui.news.task.model.NewsModel;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATION
  * Created by gleb on 11/7/17.
  */
 
-public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataObtainedListener,
+public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataObtainedListener,
         NewsRecyclerAdapter.OnItemClickListener, EndlessRecyclerView.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recyclerView)
@@ -65,9 +65,9 @@ public class NewsFragment extends BaseFragment implements ObtainPageTask.OnDataO
     }
 
     private void getNews(String url) {
-        ObtainPageTask obtainPageTask = new ObtainPageTask();
-        obtainPageTask.setOnDataObtainedListener(this);
-        obtainPageTask.execute(url);
+        FetchNewsTask fetchNewsTask = new FetchNewsTask();
+        fetchNewsTask.setOnDataObtainedListener(this);
+        fetchNewsTask.execute(url);
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.project.dajver.psypractice.ui.news.adapter.view.EndlessRecyclerView;
 import com.project.dajver.psypractice.ui.news.details.NewsDetailsActivity;
 import com.project.dajver.psypractice.ui.search.adapter.SearchPreviewRecyclerAdapter;
 import com.project.dajver.psypractice.ui.search.adapter.SearchRecyclerAdapter;
-import com.project.dajver.psypractice.ui.search.task.SearchTask;
+import com.project.dajver.psypractice.ui.search.task.FetchSearchTask;
 import com.project.dajver.psypractice.ui.search.task.model.SearchModel;
 
 import java.io.UnsupportedEncodingException;
@@ -35,7 +35,7 @@ import static com.project.dajver.psypractice.etc.Constants.LIST_SEARCH_LINK;
  */
 
 public class SearchFragment extends BaseFragment implements SearchView.OnQueryTextListener,
-        SearchTask.OnSearchEndedListener, EndlessRecyclerView.OnLoadMoreListener,
+        FetchSearchTask.OnSearchEndedListener, EndlessRecyclerView.OnLoadMoreListener,
         SearchRecyclerAdapter.OnItemClickListener, SearchPreviewRecyclerAdapter.OnPreviewItemClickListener {
 
     @BindView(R.id.recyclerView)
@@ -92,9 +92,9 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void search(String url, String query) {
-        SearchTask searchTask = new SearchTask();
-        searchTask.setOnSearchEndedListener(this);
-        searchTask.execute(url + query);
+        FetchSearchTask fetchSearchTask = new FetchSearchTask();
+        fetchSearchTask.setOnSearchEndedListener(this);
+        fetchSearchTask.execute(url + query);
     }
 
     private String getQuery(String query) {

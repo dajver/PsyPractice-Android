@@ -84,7 +84,7 @@ public class BottomMenuView extends LinearLayout implements View.OnClickListener
         }
     }
 
-    private void setTabActive(int tabId) {
+    public void setTabActive(int tabId) {
         switch (tabId) {
             case TAB_HOME:
                 home.setImageResource(R.mipmap.ic_home_blue);

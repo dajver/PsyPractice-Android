@@ -20,7 +20,7 @@ import static com.project.dajver.psypractice.etc.Constants.BASE_URL;
  * Created by gleb on 11/7/17.
  */
 
-public class ObtainPageTask extends AsyncTask<String, Void, ArrayList<NewsModel>> {
+public class FetchNewsTask extends AsyncTask<String, Void, ArrayList<NewsModel>> {
 
     private OnDataObtainedListener onDataObtainedListener;
     private ArrayList<NewsModel> newsModels = new ArrayList<>();
@@ -29,7 +29,7 @@ public class ObtainPageTask extends AsyncTask<String, Void, ArrayList<NewsModel>
     protected ArrayList<NewsModel> doInBackground(String... params) {
         Document doc = null;
         try {
-            Log.e("LINK", "L: " + params[0]);
+            Log.e("NEWS LINK", params[0]);
             doc = Jsoup.connect(params[0]).get();
         } catch (IOException e) {
             e.printStackTrace();

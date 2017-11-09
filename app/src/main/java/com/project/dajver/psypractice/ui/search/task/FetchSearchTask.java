@@ -18,7 +18,7 @@ import static com.project.dajver.psypractice.etc.Constants.LINK_PUBLICATIONS;
  * Created by gleb on 11/7/17.
  */
 
-public class SearchTask extends AsyncTask<String, Void, ArrayList<SearchModel>> {
+public class FetchSearchTask extends AsyncTask<String, Void, ArrayList<SearchModel>> {
 
     private OnSearchEndedListener onSearchEndedListener;
     private ArrayList<SearchModel> searchModels = new ArrayList<>();
@@ -27,7 +27,7 @@ public class SearchTask extends AsyncTask<String, Void, ArrayList<SearchModel>> 
     protected ArrayList<SearchModel> doInBackground(String... params) {
         Document doc = null;
         try {
-            Log.e("LINK", params[0]);
+            Log.e("SEARCH LINK", params[0]);
             doc = Jsoup.connect(params[0]).get();
         } catch (IOException e) {
             e.printStackTrace();
