@@ -137,12 +137,12 @@ public class TabsActivity extends BaseActivity implements BottomMenuView.OnTabCl
                         fragment = new NewsFragment().setInstance(LIST_OF_ON_RECEPTION);
                         break;
                 }
-                bottomNavigationView.setTabActive(TAB_HOME);
                 getSupportActionBar().setTitle(drawerModels.get(i).getTitle());
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();
+                bottomNavigationView.setTabActive(TAB_HOME);
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });

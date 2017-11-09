@@ -51,6 +51,7 @@ public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataOb
     @Override
     public void onViewCreate(View view, Bundle savedInstanceState) {
         setupAdapter();
+
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -72,9 +73,7 @@ public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataOb
 
     @Override
     public void onDataObtained(ArrayList<NewsModel> newsModels) {
-        swipeRefreshLayout.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
-
         for(NewsModel model : newsModels)
             newsRecyclerAdapter.addItem(model);
     }

@@ -28,7 +28,6 @@ public class Constants {
     public static final String LIST_SEARCH_LINK = BASE_URL + "/search/?q=";
 
     public static final String INTENT_LINK = "link";
-    public static final String INTENT_TITLE = "title";
 
     public static final int DRAWER_PUBLICATIONS = 0;
     public static final int DRAWER_PSYCHO_HEALTH = 1;

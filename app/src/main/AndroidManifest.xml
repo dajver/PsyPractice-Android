@@ -21,6 +21,10 @@
         <activity
             android:name=".ui.news.details.NewsDetailsActivity"
             android:label="@string/news.details.title"/>
+
+        <activity
+            android:name=".ui.videos.details.VideoDetailsActivity"
+            android:label="@string/video.details.title"/>
     </application>
 
 </manifest>

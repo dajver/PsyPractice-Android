@@ -3,6 +3,7 @@
 
     <string name="news.title">Публикации</string>
     <string name="news.details.title">Детали публикации</string>
+    <string name="video.details.title">Просмотр видео</string>
 
     <string name="tabs.title.publications">@string/news.title</string>
     <string name="tabs.title.specialists">Специалисты</string>

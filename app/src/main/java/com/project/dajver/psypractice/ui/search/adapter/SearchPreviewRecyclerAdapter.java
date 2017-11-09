@@ -33,12 +33,12 @@ public class SearchPreviewRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_preview, parent, false);
-        return new NewsViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        NewsViewHolder viewHolder = (NewsViewHolder) holder;
+        ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.title.setText(stringList.get(position));
     }
 
@@ -51,12 +51,12 @@ public class SearchPreviewRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         this.onPreviewItemClickListener = onPreviewItemClickListener;
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.title)
         public TextView title;
 
-        public NewsViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
