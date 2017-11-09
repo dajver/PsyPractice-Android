@@ -1,8 +1,10 @@
 package com.project.dajver.psypractice.ui.search.task;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.project.dajver.psypractice.R;
 import com.project.dajver.psypractice.ui.search.task.model.SearchModel;
 
 import org.jsoup.Jsoup;
@@ -20,8 +22,13 @@ import static com.project.dajver.psypractice.etc.Constants.LINK_PUBLICATIONS;
 
 public class FetchSearchTask extends AsyncTask<String, Void, ArrayList<SearchModel>> {
 
+    private Context context;
     private OnSearchEndedListener onSearchEndedListener;
     private ArrayList<SearchModel> searchModels = new ArrayList<>();
+
+    public FetchSearchTask(Context context) {
+        this.context = context;
+    }
 
     @Override
     protected ArrayList<SearchModel> doInBackground(String... params) {
@@ -56,7 +63,14 @@ public class FetchSearchTask extends AsyncTask<String, Void, ArrayList<SearchMod
     @Override
     protected void onPostExecute(ArrayList<SearchModel> result) {
         super.onPostExecute(result);
-        onSearchEndedListener.onSearchFinished(result);
+        if(result.size() > 0)
+            onSearchEndedListener.onSearchFinished(result);
+        else {
+            SearchModel model = new SearchModel(context.getString(R.string.search_fail_empty), "", "");
+            result.add(model);
+
+            onSearchEndedListener.onSearchFinished(result);
+        }
     }
 
     public void setOnSearchEndedListener(OnSearchEndedListener onSearchEndedListener) {

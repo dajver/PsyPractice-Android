@@ -92,7 +92,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void search(String url, String query) {
-        FetchSearchTask fetchSearchTask = new FetchSearchTask();
+        FetchSearchTask fetchSearchTask = new FetchSearchTask(context);
         fetchSearchTask.setOnSearchEndedListener(this);
         fetchSearchTask.execute(url + query);
     }
@@ -128,9 +128,11 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public void onItemClick(String detailsLink) {
-        Intent intent = new Intent(context, NewsDetailsActivity.class);
-        intent.putExtra(INTENT_LINK, detailsLink);
-        startActivity(intent);
+        if(!TextUtils.isEmpty(detailsLink)) {
+            Intent intent = new Intent(context, NewsDetailsActivity.class);
+            intent.putExtra(INTENT_LINK, detailsLink);
+            startActivity(intent);
+        }
     }
 
     @Override

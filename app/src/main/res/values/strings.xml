@@ -12,6 +12,7 @@
     <string name="tabs.title.search">Поиск</string>
     <string name="tabs.title.favorite">Избранное</string>
 
+    <string name="search.fail.empty">К сожалению, на ваш поисковый запрос ничего не найдено.</string>
 
     <string-array name="drawerItems">
         <item>Психологическое здоровье</item>
