@@ -1,28 +1,31 @@
 package com.project.dajver.psypractice.ui;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.view.MenuItem;
 
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.project.dajver.psypractice.BaseActivity;
 import com.project.dajver.psypractice.R;
-import com.project.dajver.psypractice.ui.events.EventsFragment;
+import com.project.dajver.psypractice.ui.favorite.FavoriteFragment;
+import com.project.dajver.psypractice.ui.search.SearchFragment;
 import com.project.dajver.psypractice.ui.news.NewsFragment;
+import com.project.dajver.psypractice.ui.videos.VideosFragment;
+import com.project.dajver.psypractice.ui.view.BottomMenuView;
 
 import butterknife.BindView;
 
 import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATIONS;
+import static com.project.dajver.psypractice.etc.Constants.TAB_FAVORITE;
+import static com.project.dajver.psypractice.etc.Constants.TAB_HOME;
+import static com.project.dajver.psypractice.etc.Constants.TAB_SEARCH;
+import static com.project.dajver.psypractice.etc.Constants.TAB_VIDEOS;
 
 /**
  * Created by gleb on 11/9/17.
  */
 
-public class TabsActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class TabsActivity extends BaseActivity implements BottomMenuView.OnTabClickListener {
 
     @BindView(R.id.bottom_navigation)
-    BottomNavigationViewEx bottomNavigationView;
+    BottomMenuView bottomNavigationView;
 
     @Override
     public int getViewId() {
@@ -33,12 +36,7 @@ public class TabsActivity extends BaseActivity implements BottomNavigationView.O
     public void onCreateView(Bundle savedInstanceState) {
         getSupportActionBar().setTitle(getString(R.string.tabs_title_publications));
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.enableAnimation(false);
-        bottomNavigationView.enableShiftingMode(false);
-        bottomNavigationView.enableItemShiftingMode(false);
-        bottomNavigationView.setTextVisibility(false);
-        bottomNavigationView.setIconSize(30, 30);
+        bottomNavigationView.setOnTabClickListener(this);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -52,38 +50,37 @@ public class TabsActivity extends BaseActivity implements BottomNavigationView.O
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_home:
+    public void onTabClickListener(int id) {
+        switch (id) {
+            case TAB_HOME:
                 getSupportActionBar().setTitle(getString(R.string.tabs_title_publications));
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container, new NewsFragment().setInstance(LIST_LAST_PUBLICATIONS))
                         .commit();
                 break;
-            case R.id.action_event:
-                getSupportActionBar().setTitle(getString(R.string.tabs_title_events));
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, new EventsFragment())
-                        .commit();
-                break;
-            case R.id.action_specialist:
-                getSupportActionBar().setTitle(getString(R.string.tabs_title_specialists));
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, new EventsFragment())
-                        .commit();
-                break;
-            case R.id.action_video:
+            case TAB_VIDEOS:
                 getSupportActionBar().setTitle(getString(R.string.tabs_title_videos));
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new EventsFragment())
+                        .replace(R.id.container, new VideosFragment())
+                        .commit();
+                break;
+            case TAB_SEARCH:
+                getSupportActionBar().setTitle(getString(R.string.tabs_title_search));
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new SearchFragment())
+                        .commit();
+                break;
+            case TAB_FAVORITE:
+                getSupportActionBar().setTitle(getString(R.string.tabs_title_favorite));
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new FavoriteFragment())
                         .commit();
                 break;
 
         }
-        return true;
     }
 }

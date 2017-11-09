@@ -9,6 +9,7 @@ public class Constants {
     public static final String BASE_URL = "https://psy-practice.com";
     public static final String LINK_PUBLICATIONS = "/publications";
     public static final String LINK_PAGE = "/?PAGEN_1=";
+    public static final String LINK_SEARCH_PAGE = "&where=&how=r&PAGEN_1=";
     public static final String LIST_LAST_PUBLICATIONS = BASE_URL + LINK_PUBLICATIONS;
 
     public static final String LIST_OF_PSYCHO_HEALTH = LIST_LAST_PUBLICATIONS  + "/psikhicheskoe-zdorove/";
@@ -24,6 +25,7 @@ public class Constants {
     public static final String LIST_VIDEOS_LINK = BASE_URL + "/useful/video/";
     public static final String LIST_EVENTS_LINK = BASE_URL + "/activity/";
     public static final String LIST_SPECIALISTS_LINK = BASE_URL + "/therapists-find/";
+    public static final String LIST_SEARCH_LINK = BASE_URL + "/search/?q=";
 
     public static final String INTENT_LINK = "link";
     public static final String INTENT_TITLE = "title";
@@ -38,4 +40,9 @@ public class Constants {
     public static final int DRAWER_BUSINESS = 7;
     public static final int DRAWER_OTHER = 8;
     public static final int DRAWER_ON_RECEPTION = 9;
+
+    public static final int TAB_HOME = 0;
+    public static final int TAB_VIDEOS = 1;
+    public static final int TAB_SEARCH = 2;
+    public static final int TAB_FAVORITE = 3;
 }

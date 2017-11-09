@@ -19,12 +19,6 @@ android {
     }
 }
 
-allprojects {
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -37,5 +31,4 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation 'org.jsoup:jsoup:1.11.1'
-    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
 }

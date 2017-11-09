@@ -8,6 +8,9 @@
     <string name="tabs.title.specialists">Специалисты</string>
     <string name="tabs.title.videos">Видео</string>
     <string name="tabs.title.events">Мероприятия</string>
+    <string name="tabs.title.search">Поиск</string>
+    <string name="tabs.title.favorite">Избранное</string>
+
 
     <string-array name="drawerItems">
         <item>Психологическое здоровье</item>
@@ -19,5 +22,16 @@
         <item>Бизнес</item>
         <item>Прочее</item>
         <item>На приеме</item>
+    </string-array>
+
+    <string-array name="previewSearchItems">
+        <item>Любовь</item>
+        <item>Отношения</item>
+        <item>Здоровье</item>
+        <item>Дети</item>
+        <item>Психология</item>
+        <item>Работа</item>
+        <item>Страх</item>
+        <item>Насилие</item>
     </string-array>
 </resources>

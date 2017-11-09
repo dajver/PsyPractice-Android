@@ -121,6 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                         fragment = new NewsFragment().setInstance(LIST_OF_ON_RECEPTION);
                         break;
                 }
+                getSupportActionBar().setTitle(drawerModels.get(i).getTitle());
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container, fragment)
