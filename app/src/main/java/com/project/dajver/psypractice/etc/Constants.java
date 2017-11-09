@@ -21,6 +21,10 @@ public class Constants {
     public static final String LIST_OF_OTHER = LIST_LAST_PUBLICATIONS  + "/prochee/";
     public static final String LIST_OF_ON_RECEPTION = LIST_LAST_PUBLICATIONS  + "/na-prieme/";
 
+    public static final String LIST_VIDEOS_LINK = BASE_URL + "/useful/video/";
+    public static final String LIST_EVENTS_LINK = BASE_URL + "/activity/";
+    public static final String LIST_SPECIALISTS_LINK = BASE_URL + "/therapists-find/";
+
     public static final String INTENT_LINK = "link";
     public static final String INTENT_TITLE = "title";
 
