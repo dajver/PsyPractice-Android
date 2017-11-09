@@ -6,6 +6,8 @@ package com.project.dajver.psypractice.etc;
 
 public class Constants {
 
+    public static final int SPLASH_TIME_OUT = 2000;
+
     public static final String BASE_URL = "https://psy-practice.com";
     public static final String LINK_PUBLICATIONS = "/publications";
     public static final String LINK_PAGE = "/?PAGEN_1=";
