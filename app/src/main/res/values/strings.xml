@@ -14,6 +14,8 @@
 
     <string name="search.fail.empty">К сожалению, на ваш поисковый запрос ничего не найдено.</string>
 
+    <string name="toast.request.internet.fail">Интернет отключен, для начала попробуйте включить его, а после обновите список потянув его вниз.</string>
+
     <string-array name="drawerItems">
         <item>Психологическое здоровье</item>
         <item>Травмы</item>

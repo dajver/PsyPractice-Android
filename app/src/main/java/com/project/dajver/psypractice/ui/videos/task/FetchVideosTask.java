@@ -1,5 +1,6 @@
 package com.project.dajver.psypractice.ui.videos.task;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,6 +23,11 @@ public class FetchVideosTask extends AsyncTask<String, Void, ArrayList<VideosMod
 
     private OnVideosFetchedListener onVideosFetchedListener;
     private ArrayList<VideosModel> videosModels = new ArrayList<>();
+    private Context context;
+
+    public FetchVideosTask(Context context) {
+        this.context = context;
+    }
 
     @Override
     protected ArrayList<VideosModel> doInBackground(String... params) {
@@ -29,26 +35,27 @@ public class FetchVideosTask extends AsyncTask<String, Void, ArrayList<VideosMod
         try {
             Log.e("VIDEOS LINK", params[0]);
             doc = Jsoup.connect(params[0]).get();
+
+            Elements mainElement = doc.getElementsByClass("newslesttitle-tab uk-h4");
+            Elements imageElement = doc.getElementsByClass("uk-panel-box");
+
+            for(int i = 0; i < mainElement.size(); i++) {
+                String titleText = mainElement.get(i).text();
+
+                Elements videoLink = mainElement.get(i).select("a");
+                String url = videoLink.attr("href");
+
+                Elements imageLink = imageElement.get(i).select("img");
+                String imageUrl = imageLink.attr("src");
+
+                if(url.contains("useful")) {
+                    VideosModel model = new VideosModel(titleText, imageUrl, BASE_URL + url);
+                    videosModels.add(model);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        Elements mainElement = doc.getElementsByClass("newslesttitle-tab uk-h4");
-        Elements imageElement = doc.getElementsByClass("uk-panel-box");
-
-        for(int i = 0; i < mainElement.size(); i++) {
-            String titleText = mainElement.get(i).text();
-
-            Elements videoLink = mainElement.get(i).select("a");
-            String url = videoLink.attr("href");
-
-            Elements imageLink = imageElement.get(i).select("img");
-            String imageUrl = imageLink.attr("src");
-
-            if(url.contains("useful")) {
-                VideosModel model = new VideosModel(titleText, imageUrl, BASE_URL + url);
-                videosModels.add(model);
-            }
+            videosModels = null;
         }
         return videosModels;
     }

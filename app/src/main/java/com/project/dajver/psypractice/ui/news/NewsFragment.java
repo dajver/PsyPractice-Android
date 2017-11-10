@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.Toast;
 
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
@@ -26,7 +27,8 @@ import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATION
  */
 
 public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataObtainedListener,
-        NewsRecyclerAdapter.OnItemClickListener, EndlessRecyclerView.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+        NewsRecyclerAdapter.OnItemClickListener, EndlessRecyclerView.OnLoadMoreListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recyclerView)
     EndlessRecyclerView recyclerView;
@@ -66,7 +68,7 @@ public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataOb
     }
 
     private void getNews(String url) {
-        FetchNewsTask fetchNewsTask = new FetchNewsTask();
+        FetchNewsTask fetchNewsTask = new FetchNewsTask(context);
         fetchNewsTask.setOnDataObtainedListener(this);
         fetchNewsTask.execute(url);
     }
@@ -74,8 +76,12 @@ public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataOb
     @Override
     public void onDataObtained(ArrayList<NewsModel> newsModels) {
         swipeRefreshLayout.setRefreshing(false);
-        for(NewsModel model : newsModels)
-            newsRecyclerAdapter.addItem(model);
+        if(newsModels != null) {
+            for (NewsModel model : newsModels)
+                newsRecyclerAdapter.addItem(model);
+        } else {
+            Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

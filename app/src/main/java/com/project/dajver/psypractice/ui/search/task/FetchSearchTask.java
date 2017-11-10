@@ -36,26 +36,28 @@ public class FetchSearchTask extends AsyncTask<String, Void, ArrayList<SearchMod
         try {
             Log.e("SEARCH LINK", params[0]);
             doc = Jsoup.connect(params[0]).get();
+
+            Elements titleElement = doc.getElementsByClass("class 234");
+            Elements descriptionElement = doc.select("td").select("p");
+            Elements linkElement = doc.getElementsByClass("class 234");
+
+            for(int i = 0; i < titleElement.size(); i++) {
+                Elements articleLink = linkElement.get(i).select("a");
+                String url = articleLink.attr("href");
+
+                String titleText = titleElement.get(i).text();
+                String descriptionText = descriptionElement.get(i).text();
+
+                if(url.contains(LINK_PUBLICATIONS)) {
+                    SearchModel model = new SearchModel(titleText,
+                            descriptionText,
+                            url);
+                    searchModels.add(model);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        Elements titleElement = doc.getElementsByClass("class 234");
-        Elements descriptionElement = doc.select("td").select("p");
-        Elements linkElement = doc.getElementsByClass("class 234");
-
-        for(int i = 0; i < titleElement.size(); i++) {
-            Elements articleLink = linkElement.get(i).select("a");
-            String url = articleLink.attr("href");
-
-            String titleText = titleElement.get(i).text();
-            String descriptionText = descriptionElement.get(i).text();
-
-            if(url.contains(LINK_PUBLICATIONS)) {
-                SearchModel model = new SearchModel(titleText,
-                        descriptionText,
-                        url);
-                searchModels.add(model);
-            }
+            searchModels = null;
         }
         return searchModels;
     }

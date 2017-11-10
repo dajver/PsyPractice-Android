@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
@@ -116,8 +117,12 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public void onSearchFinished(ArrayList<SearchModel> searchModels) {
-        for(SearchModel model : searchModels)
-            searchRecyclerAdapter.addItem(model);
+        if(searchModels != null) {
+            for (SearchModel model : searchModels)
+                searchRecyclerAdapter.addItem(model);
+        } else {
+            Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

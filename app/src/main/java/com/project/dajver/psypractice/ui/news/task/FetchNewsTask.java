@@ -1,5 +1,6 @@
 package com.project.dajver.psypractice.ui.news.task;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,6 +25,11 @@ public class FetchNewsTask extends AsyncTask<String, Void, ArrayList<NewsModel>>
 
     private OnDataObtainedListener onDataObtainedListener;
     private ArrayList<NewsModel> newsModels = new ArrayList<>();
+    private Context context;
+
+    public FetchNewsTask(Context context) {
+        this.context = context;
+    }
 
     @Override
     protected ArrayList<NewsModel> doInBackground(String... params) {
@@ -31,31 +37,33 @@ public class FetchNewsTask extends AsyncTask<String, Void, ArrayList<NewsModel>>
         try {
             Log.e("NEWS LINK", params[0]);
             doc = Jsoup.connect(params[0]).get();
+
+            Elements titleElement = doc.getElementsByClass("newslesttitle");
+            Elements descriptionElement = doc.getElementsByClass("ptext");
+            Elements imageElement = doc.getElementsByClass("preview_picture");
+            Elements linkElement = doc.getElementsByClass("uk-width-1-3");
+
+            for(int i = 0; i < titleElement.size(); i++) {
+                Elements ahref = imageElement.get(i).select("a[href]");
+                String style = ahref.attr("style");
+
+                Elements articleLink = linkElement.get(i).select("a");
+                String url = articleLink.attr("href");
+
+                String titleText = titleElement.get(i).text();
+                String descriptionText = descriptionElement.get(i).text();
+                String title = titleText.replaceAll(String.valueOf(getViewsCount(titleElement.get(i).text())), "");
+
+                NewsModel model = new NewsModel(title,
+                        descriptionText,
+                        getImageLink(style),
+                        url,
+                        getViewsCount(titleText));
+                newsModels.add(model);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        Elements titleElement = doc.getElementsByClass("newslesttitle");
-        Elements descriptionElement = doc.getElementsByClass("ptext");
-        Elements imageElement = doc.getElementsByClass("preview_picture");
-        Elements linkElement = doc.getElementsByClass("uk-width-1-3");
-
-        for(int i = 0; i < titleElement.size(); i++) {
-            Elements ahref = imageElement.get(i).select("a[href]");
-            String style = ahref.attr("style");
-
-            Elements articleLink = linkElement.get(i).select("a");
-            String url = articleLink.attr("href");
-
-            String titleText = titleElement.get(i).text();
-            String descriptionText = descriptionElement.get(i).text();
-            String title = titleText.replaceAll(String.valueOf(getViewsCount(titleElement.get(i).text())), "");
-
-            NewsModel model = new NewsModel(title,
-                    descriptionText,
-                    getImageLink(style),
-                    url,
-                    getViewsCount(titleText));
-            newsModels.add(model);
+            newsModels = null;
         }
         return newsModels;
     }

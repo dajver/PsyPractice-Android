@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.Toast;
 
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
@@ -60,7 +61,7 @@ public class VideosFragment extends BaseFragment implements FetchVideosTask.OnVi
     }
 
     private void getVideos(String link) {
-        FetchVideosTask fetchVideosTask = new FetchVideosTask();
+        FetchVideosTask fetchVideosTask = new FetchVideosTask(context);
         fetchVideosTask.setOnVideosFetchedListener(this);
         fetchVideosTask.execute(link);
     }
@@ -68,8 +69,12 @@ public class VideosFragment extends BaseFragment implements FetchVideosTask.OnVi
     @Override
     public void onVideosFetched(ArrayList<VideosModel> videosModels) {
         swipeRefreshLayout.setRefreshing(false);
-        for(VideosModel model : videosModels)
-            videosRecyclerAdapter.addItem(model);
+        if(videosModels != null) {
+            for (VideosModel model : videosModels)
+                videosRecyclerAdapter.addItem(model);
+        } else {
+            Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
