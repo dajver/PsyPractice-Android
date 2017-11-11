@@ -50,9 +50,11 @@ public class URLImageParser implements Html.ImageGetter {
 
         @Override
         protected void onPostExecute(Drawable result) {
-            urlDrawable.setBounds(0, 0, 0 + result.getIntrinsicWidth(), 0 + result.getIntrinsicHeight());
-            urlDrawable.drawable = result;
-            URLImageParser.this.container.invalidate();
+            if(result != null) {
+                urlDrawable.setBounds(0, 0, 0 + result.getIntrinsicWidth(), 0 + result.getIntrinsicHeight());
+                urlDrawable.drawable = result;
+                URLImageParser.this.container.invalidate();
+            }
         }
 
         public Drawable fetchDrawable(String urlString) {

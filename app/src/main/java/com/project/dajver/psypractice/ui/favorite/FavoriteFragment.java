@@ -40,6 +40,7 @@ public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask
     @Override
     public void onViewCreate(View view, Bundle savedInstanceState) {
         recyclerView.setLayoutManager(new WrapperLinearLayout(context, LinearLayoutManager.VERTICAL,false));
+
         FetchFavoritesTask fetchFavoritesTask = new FetchFavoritesTask();
         fetchFavoritesTask.setOnFetchFavoritesListener(this);
         fetchFavoritesTask.execute();
@@ -47,6 +48,8 @@ public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask
 
     @Override
     public void onFetchFavorites(List<FavoriteNewsModel> favoriteNewsModels) {
+        if(favoriteNewsModels.size() > 0) recyclerView.setVisibility(View.VISIBLE);
+
         FavoriteNewsRecyclerAdapter newsRecyclerAdapter = new FavoriteNewsRecyclerAdapter(context, favoriteNewsModels);
         newsRecyclerAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(newsRecyclerAdapter);
@@ -60,7 +63,9 @@ public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask
     }
 
     @Override
-    public void onDeleteFavorite(FavoriteNewsModel newsModel) {
+    public void onDeleteFavorite(FavoriteNewsModel newsModel, int itemsCount) {
+        if(itemsCount == 1) recyclerView.setVisibility(View.GONE);
+
         DatabaseHelper databaseHelper = App.getInstance().getDatabaseInstance();
         databaseHelper.getFavoriteDao().delete(newsModel);
     }

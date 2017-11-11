@@ -51,7 +51,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         viewHolder.viewsCount.setText(String.valueOf(newsModels.get(position).getViewsCount()));
         Picasso.with(context).load(newsModels.get(position).getImageUrl()).into(viewHolder.image);
         if(newsModels.get(position).isFavorite())
-            viewHolder.favorite.setImageResource(R.mipmap.ic_favorite_blue);
+            viewHolder.favorite.setImageResource(R.mipmap.ic_favorite_blue_selected);
         else
             viewHolder.favorite.setImageResource(R.mipmap.ic_favorite_gray);
     }
@@ -96,7 +96,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()));
                     } else {
                         newsModels.get(getAdapterPosition()).setFavorite(true);
-                        favorite.setImageResource(R.mipmap.ic_favorite_blue);
+                        favorite.setImageResource(R.mipmap.ic_favorite_blue_selected);
                         onItemClickListener.onAddFavorite(newsModels.get(getAdapterPosition()));
                     }
                 }

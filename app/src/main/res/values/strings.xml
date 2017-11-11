@@ -16,6 +16,8 @@
 
     <string name="toast.request.internet.fail">Интернет отключен, для начала попробуйте включить его, а после обновите список потянув его вниз.</string>
 
+    <string name="favrites.list.empty.text">Ваш список избранного пуст, добавьте в него статьи нажав на звездочку ★ рядом с названием статьи</string>
+
     <string-array name="drawerItems">
         <item>Психологическое здоровье</item>
         <item>Травмы</item>

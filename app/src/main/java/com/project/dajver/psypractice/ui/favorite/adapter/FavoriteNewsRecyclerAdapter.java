@@ -82,7 +82,7 @@ public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()));
+                    onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()), getItemCount());
                     newsModels.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
                 }
@@ -92,6 +92,6 @@ public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public interface OnItemClickListener {
         void onItemClick(String detailsLink);
-        void onDeleteFavorite(FavoriteNewsModel newsModel);
+        void onDeleteFavorite(FavoriteNewsModel newsModel, int itemsCount);
     }
 }
