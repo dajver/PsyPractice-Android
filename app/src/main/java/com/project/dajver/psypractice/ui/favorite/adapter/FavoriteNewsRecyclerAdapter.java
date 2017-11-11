@@ -35,7 +35,7 @@ public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_favorite, parent, false);
         return new NewsViewHolder(view);
     }
 
@@ -67,8 +67,8 @@ public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         public TextView viewsCount;
         @BindView(R.id.image)
         public ImageView image;
-        @BindView(R.id.favorite)
-        public ImageView favorite;
+        @BindView(R.id.remove)
+        public ImageView remove;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -79,10 +79,12 @@ public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                     onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getDetailsLink());
                 }
             });
-            favorite.setOnClickListener(new View.OnClickListener() {
+            remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.deleteFavorite(newsModels.get(getAdapterPosition()));
+                    onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()));
+                    newsModels.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
                 }
             });
         }
@@ -90,6 +92,6 @@ public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public interface OnItemClickListener {
         void onItemClick(String detailsLink);
-        void deleteFavorite(FavoriteNewsModel newsModel);
+        void onDeleteFavorite(FavoriteNewsModel newsModel);
     }
 }

@@ -122,7 +122,6 @@ public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataOb
     public void onDeleteFavorite(NewsModel newsModel) {
         DatabaseHelper databaseHelper = App.getInstance().getDatabaseInstance();
         databaseHelper.getFavoriteDao().delete(new FavoriteNewsModel(newsModel));
-
     }
 
     @Override

@@ -19,6 +19,7 @@ public class FavoriteNewsModel {
     String imageUrl;
     String detailsLink;
     int viewsCount;
+    boolean isFavorite;
 
     public FavoriteNewsModel() { }
 
@@ -28,6 +29,7 @@ public class FavoriteNewsModel {
         this.imageUrl = favoriteNewsModel.getImageUrl();
         this.detailsLink = favoriteNewsModel.getArticleDetailsLink();
         this.viewsCount = favoriteNewsModel.getViewsCount();
+        this.isFavorite = favoriteNewsModel.isFavorite();
     }
 
     public String getTitle() {
@@ -68,5 +70,13 @@ public class FavoriteNewsModel {
 
     public void setViewsCount(int viewsCount) {
         this.viewsCount = viewsCount;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

@@ -6,8 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.project.dajver.psypractice.App;
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
+import com.project.dajver.psypractice.db.DatabaseHelper;
 import com.project.dajver.psypractice.db.model.FavoriteNewsModel;
 import com.project.dajver.psypractice.ui.favorite.adapter.FavoriteNewsRecyclerAdapter;
 import com.project.dajver.psypractice.ui.favorite.task.FetchFavoritesTask;
@@ -58,7 +60,8 @@ public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask
     }
 
     @Override
-    public void deleteFavorite(FavoriteNewsModel newsModel) {
-
+    public void onDeleteFavorite(FavoriteNewsModel newsModel) {
+        DatabaseHelper databaseHelper = App.getInstance().getDatabaseInstance();
+        databaseHelper.getFavoriteDao().delete(newsModel);
     }
 }
