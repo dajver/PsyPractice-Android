@@ -1,11 +1,11 @@
-package com.project.dajver.psypractice.db;
+package com.project.dajver.psypractice.ui.favorite.db;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.project.dajver.psypractice.db.model.FavoriteNewsModel;
+import com.project.dajver.psypractice.ui.favorite.db.model.FavoriteNewsModel;
 
 import java.util.List;
 

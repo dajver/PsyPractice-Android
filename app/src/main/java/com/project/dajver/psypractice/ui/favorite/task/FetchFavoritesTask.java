@@ -3,8 +3,8 @@ package com.project.dajver.psypractice.ui.favorite.task;
 import android.os.AsyncTask;
 
 import com.project.dajver.psypractice.App;
-import com.project.dajver.psypractice.db.DatabaseHelper;
-import com.project.dajver.psypractice.db.model.FavoriteNewsModel;
+import com.project.dajver.psypractice.ui.favorite.db.DatabaseHelper;
+import com.project.dajver.psypractice.ui.favorite.db.model.FavoriteNewsModel;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.project.dajver.psypractice.db;
+package com.project.dajver.psypractice.ui.favorite.db;
 
 import android.arch.persistence.db.SupportSQLiteOpenHelper;
 import android.arch.persistence.room.Database;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.DatabaseConfiguration;
 import android.arch.persistence.room.InvalidationTracker;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.project.dajver.psypractice.db.model.FavoriteNewsModel;
+import com.project.dajver.psypractice.ui.favorite.db.model.FavoriteNewsModel;
 
 /**
  * Created by gleb on 11/11/17.

@@ -3,7 +3,7 @@ package com.project.dajver.psypractice;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.project.dajver.psypractice.db.DatabaseHelper;
+import com.project.dajver.psypractice.ui.favorite.db.DatabaseHelper;
 
 /**
  * Created by gleb on 11/11/17.

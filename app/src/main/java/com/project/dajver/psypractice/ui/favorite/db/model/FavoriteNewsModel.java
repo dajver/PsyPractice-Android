@@ -1,4 +1,4 @@
-package com.project.dajver.psypractice.db.model;
+package com.project.dajver.psypractice.ui.favorite.db.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.dajver.psypractice.R;
-import com.project.dajver.psypractice.db.model.FavoriteNewsModel;
+import com.project.dajver.psypractice.ui.favorite.db.model.FavoriteNewsModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
