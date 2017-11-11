@@ -11,13 +11,9 @@ public class NewsModel {
     private String imageUrl;
     private String articleLink;
     private int viewsCount;
+    private boolean isFavorite;
 
     public NewsModel() { }
-
-    public NewsModel(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
 
     public NewsModel(String title, String description, String imageUrl, String articleLink, int viewsCount) {
         this.title = title;
@@ -65,5 +61,13 @@ public class NewsModel {
 
     public void setViewsCount(int viewsCount) {
         this.viewsCount = viewsCount;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

@@ -1,4 +1,4 @@
-package com.project.dajver.psypractice.ui.news.adapter;
+package com.project.dajver.psypractice.ui.favorite.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.dajver.psypractice.R;
-import com.project.dajver.psypractice.ui.news.task.model.NewsModel;
+import com.project.dajver.psypractice.db.model.FavoriteNewsModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,19 +22,15 @@ import butterknife.ButterKnife;
  * Created by gleb on 11/7/17.
  */
 
-public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private List<NewsModel> newsModels = new ArrayList<>();
+    private List<FavoriteNewsModel> newsModels = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
     private Context context;
 
-    public NewsRecyclerAdapter(Context context) {
+    public FavoriteNewsRecyclerAdapter(Context context, List<FavoriteNewsModel> newsModels) {
         this.context = context;
-    }
-
-    public void addItem(NewsModel newsModel) {
-        newsModels.add(newsModel);
-        notifyDataSetChanged();
+        this.newsModels = newsModels;
     }
 
     @Override
@@ -45,15 +41,11 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        final NewsViewHolder viewHolder = (NewsViewHolder) holder;
+        NewsViewHolder viewHolder = (NewsViewHolder) holder;
         viewHolder.title.setText(newsModels.get(position).getTitle());
         viewHolder.description.setText(newsModels.get(position).getDescription());
         viewHolder.viewsCount.setText(String.valueOf(newsModels.get(position).getViewsCount()));
         Picasso.with(context).load(newsModels.get(position).getImageUrl()).into(viewHolder.image);
-        if(newsModels.get(position).isFavorite())
-            viewHolder.favorite.setImageResource(R.mipmap.ic_favorite_blue);
-        else
-            viewHolder.favorite.setImageResource(R.mipmap.ic_favorite_gray);
     }
 
     @Override
@@ -84,21 +76,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getArticleDetailsLink());
+                    onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getDetailsLink());
                 }
             });
             favorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(newsModels.get(getAdapterPosition()).isFavorite()) {
-                        newsModels.get(getAdapterPosition()).setFavorite(false);
-                        favorite.setImageResource(R.mipmap.ic_favorite_gray);
-                        onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()));
-                    } else {
-                        newsModels.get(getAdapterPosition()).setFavorite(true);
-                        favorite.setImageResource(R.mipmap.ic_favorite_blue);
-                        onItemClickListener.onAddFavorite(newsModels.get(getAdapterPosition()));
-                    }
+                    onItemClickListener.deleteFavorite(newsModels.get(getAdapterPosition()));
                 }
             });
         }
@@ -106,7 +90,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public interface OnItemClickListener {
         void onItemClick(String detailsLink);
-        void onAddFavorite(NewsModel newsModel);
-        void onDeleteFavorite(NewsModel newsModel);
+        void deleteFavorite(FavoriteNewsModel newsModel);
     }
 }
