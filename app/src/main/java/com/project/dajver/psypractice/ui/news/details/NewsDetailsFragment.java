@@ -1,20 +1,24 @@
 package com.project.dajver.psypractice.ui.news.details;
 
 import android.os.Bundle;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
+import com.project.dajver.psypractice.ui.news.details.models.DescriptionTextModel;
 import com.project.dajver.psypractice.ui.news.details.task.ParseDetailsPageTask;
-import com.project.dajver.psypractice.ui.news.details.task.parser.URLImageParser;
+import com.project.dajver.psypractice.ui.news.details.views.DescriptionDetailsView;
 import com.project.dajver.psypractice.ui.news.task.model.NewsModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 
@@ -28,8 +32,8 @@ public class NewsDetailsFragment extends BaseFragment implements ParseDetailsPag
 
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.description)
-    TextView description;
+    @BindView(R.id.descriptionView)
+    LinearLayout descriptionView;
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.scrollView)
@@ -56,10 +60,32 @@ public class NewsDetailsFragment extends BaseFragment implements ParseDetailsPag
 
         title.setText(newsModel.getTitle());
 
-        URLImageParser p = new URLImageParser(description, context);
-        Spanned htmlSpan = Html.fromHtml(newsModel.getDescription(), p, null);
-        description.setText(htmlSpan);
+        ArrayList<DescriptionTextModel> textModels = getDescription(newsModel.getDescription());
+        for(int i = 0; i < textModels.size(); i++) {
+            DescriptionDetailsView detailsView = new DescriptionDetailsView(context);
+            detailsView.setDescription(textModels.get(i).getText());
+            detailsView.setImage(textModels.get(i).getImage());
+            descriptionView.addView(detailsView);
+        }
 
         Picasso.with(context).load(newsModel.getImageUrl()).into(image);
+    }
+
+    private ArrayList<DescriptionTextModel> getDescription(String htmlString) {
+        String regex = "src\\s*=\\s*['\"]([^'\"]+)['\"]";
+        Pattern p = Pattern.compile(regex);
+        String[] descriptionText = htmlString.split("(<(/)img>)|(<img.+?>)");
+        Matcher m = p.matcher(htmlString);
+
+        ArrayList<DescriptionTextModel> textModels = new ArrayList<>();
+        for(int i = 0; i < descriptionText.length; i++) {
+            DescriptionTextModel textModel = new DescriptionTextModel();
+            textModel.setText(descriptionText[i]);
+            if(m.find()) {
+                textModel.setImage(m.group(1));
+            }
+            textModels.add(textModel);
+        }
+        return textModels;
     }
 }
