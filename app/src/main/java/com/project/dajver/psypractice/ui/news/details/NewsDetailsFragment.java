@@ -72,18 +72,19 @@ public class NewsDetailsFragment extends BaseFragment implements ParseDetailsPag
     }
 
     private ArrayList<DescriptionTextModel> getDescription(String htmlString) {
-        String regex = "src\\s*=\\s*['\"]([^'\"]+)['\"]";
-        Pattern p = Pattern.compile(regex);
-        String[] descriptionText = htmlString.split("(<(/)img>)|(<img.+?>)");
+        String imageRegex = "src\\s*=\\s*['\"]([^'\"]+)['\"]";
+        String textRegex = "(<(/)img>)|(<img.+?>)";
+
+        Pattern p = Pattern.compile(imageRegex);
+        String[] descriptionText = htmlString.split(textRegex);
         Matcher m = p.matcher(htmlString);
 
         ArrayList<DescriptionTextModel> textModels = new ArrayList<>();
         for(int i = 0; i < descriptionText.length; i++) {
             DescriptionTextModel textModel = new DescriptionTextModel();
             textModel.setText(descriptionText[i]);
-            if(m.find()) {
+            if(m.find())
                 textModel.setImage(m.group(1));
-            }
             textModels.add(textModel);
         }
         return textModels;
