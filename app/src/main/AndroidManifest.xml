@@ -30,6 +30,9 @@
         <activity
             android:name=".ui.videos.details.VideoDetailsActivity"
             android:label="@string/video.details.title"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3af4660cfba4a5fafc6920cf1d9ec5aa100772ca" />
     </application>
 
 </manifest>
