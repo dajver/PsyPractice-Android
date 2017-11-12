@@ -54,7 +54,6 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public void onViewCreate(View view, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         setPreviewAdapter();
     }
 

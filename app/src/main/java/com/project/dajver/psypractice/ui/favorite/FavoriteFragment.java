@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.project.dajver.psypractice.App;
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
+import com.project.dajver.psypractice.etc.InternetCheckingHelper;
+import com.project.dajver.psypractice.ui.favorite.adapter.FavoriteNewsRecyclerAdapter;
 import com.project.dajver.psypractice.ui.favorite.db.DatabaseHelper;
 import com.project.dajver.psypractice.ui.favorite.db.model.FavoriteNewsModel;
-import com.project.dajver.psypractice.ui.favorite.adapter.FavoriteNewsRecyclerAdapter;
 import com.project.dajver.psypractice.ui.favorite.task.FetchFavoritesTask;
 import com.project.dajver.psypractice.ui.news.adapter.view.wraper.WrapperLinearLayout;
 import com.project.dajver.psypractice.ui.news.details.NewsDetailsActivity;
@@ -31,6 +33,8 @@ public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.emptyText)
+    TextView emptyText;
 
     @Override
     public int getViewId() {
@@ -41,9 +45,12 @@ public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask
     public void onViewCreate(View view, Bundle savedInstanceState) {
         recyclerView.setLayoutManager(new WrapperLinearLayout(context, LinearLayoutManager.VERTICAL,false));
 
-        FetchFavoritesTask fetchFavoritesTask = new FetchFavoritesTask();
-        fetchFavoritesTask.setOnFetchFavoritesListener(this);
-        fetchFavoritesTask.execute();
+        if(InternetCheckingHelper.isHasInternet(context)) {
+            FetchFavoritesTask fetchFavoritesTask = new FetchFavoritesTask();
+            fetchFavoritesTask.setOnFetchFavoritesListener(this);
+            fetchFavoritesTask.execute();
+        } else
+            emptyText.setText(context.getString(R.string.toast_request_internet_fail));
     }
 
     @Override

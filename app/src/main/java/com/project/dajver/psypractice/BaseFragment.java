@@ -33,6 +33,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(getViewId(), container, false);
         ButterKnife.bind(this, rootView);
+        setHasOptionsMenu(true);
         return rootView;
     }
 
