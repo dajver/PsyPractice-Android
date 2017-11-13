@@ -12,12 +12,12 @@ import android.widget.Toast;
 
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
+import com.project.dajver.psypractice.api.RepositoryImpl;
+import com.project.dajver.psypractice.api.models.SearchModel;
 import com.project.dajver.psypractice.ui.news.adapter.view.EndlessRecyclerView;
 import com.project.dajver.psypractice.ui.news.details.NewsDetailsActivity;
 import com.project.dajver.psypractice.ui.search.adapter.SearchPreviewRecyclerAdapter;
 import com.project.dajver.psypractice.ui.search.adapter.SearchRecyclerAdapter;
-import com.project.dajver.psypractice.ui.search.task.FetchSearchTask;
-import com.project.dajver.psypractice.ui.search.task.model.SearchModel;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -26,6 +26,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
 import static com.project.dajver.psypractice.etc.Constants.LINK_SEARCH_PAGE;
@@ -36,8 +40,8 @@ import static com.project.dajver.psypractice.etc.Constants.LIST_SEARCH_LINK;
  */
 
 public class SearchFragment extends BaseFragment implements SearchView.OnQueryTextListener,
-        FetchSearchTask.OnSearchEndedListener, EndlessRecyclerView.OnLoadMoreListener,
-        SearchRecyclerAdapter.OnItemClickListener, SearchPreviewRecyclerAdapter.OnPreviewItemClickListener {
+        EndlessRecyclerView.OnLoadMoreListener, SearchRecyclerAdapter.OnItemClickListener,
+        SearchPreviewRecyclerAdapter.OnPreviewItemClickListener {
 
     @BindView(R.id.recyclerView)
     EndlessRecyclerView endlessRecyclerView;
@@ -58,6 +62,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void setupAdapter() {
+        pageCounter = 1;
         searchRecyclerAdapter = new SearchRecyclerAdapter(context);
         searchRecyclerAdapter.setOnItemClickListener(this);
         endlessRecyclerView.setAdapter(searchRecyclerAdapter);
@@ -92,9 +97,27 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void search(String url, String query) {
-        FetchSearchTask fetchSearchTask = new FetchSearchTask(context);
-        fetchSearchTask.setOnSearchEndedListener(this);
-        fetchSearchTask.execute(url + query);
+        new RepositoryImpl().getSearchData(url + query).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<SearchModel>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
+
+                    @Override
+                    public void onNext(ArrayList<SearchModel> searchModels) {
+                        for (SearchModel model : searchModels)
+                            searchRecyclerAdapter.addItem(model);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() { }
+                });
     }
 
     private String getQuery(String query) {
@@ -112,16 +135,6 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
             setPreviewAdapter();
         }
         return false;
-    }
-
-    @Override
-    public void onSearchFinished(ArrayList<SearchModel> searchModels) {
-        if(searchModels != null) {
-            for (SearchModel model : searchModels)
-                searchRecyclerAdapter.addItem(model);
-        } else {
-            Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override

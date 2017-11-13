@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.dajver.psypractice.R;
-import com.project.dajver.psypractice.ui.videos.task.model.VideosModel;
+import com.project.dajver.psypractice.api.models.VideosModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -10,17 +10,21 @@ import android.widget.TextView;
 import com.project.dajver.psypractice.App;
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
+import com.project.dajver.psypractice.api.RepositoryImpl;
 import com.project.dajver.psypractice.etc.InternetCheckingHelper;
 import com.project.dajver.psypractice.ui.favorite.adapter.FavoriteNewsRecyclerAdapter;
 import com.project.dajver.psypractice.ui.favorite.db.DatabaseHelper;
 import com.project.dajver.psypractice.ui.favorite.db.model.FavoriteNewsModel;
-import com.project.dajver.psypractice.ui.favorite.task.FetchFavoritesTask;
 import com.project.dajver.psypractice.ui.news.adapter.view.wraper.WrapperLinearLayout;
 import com.project.dajver.psypractice.ui.news.details.NewsDetailsActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
 
@@ -28,8 +32,7 @@ import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
  * Created by gleb on 11/7/17.
  */
 
-public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask.OnFetchFavoritesListener,
-        FavoriteNewsRecyclerAdapter.OnItemClickListener {
+public class FavoriteFragment extends BaseFragment implements FavoriteNewsRecyclerAdapter.OnItemClickListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -46,20 +49,29 @@ public class FavoriteFragment extends BaseFragment implements FetchFavoritesTask
         recyclerView.setLayoutManager(new WrapperLinearLayout(context, LinearLayoutManager.VERTICAL,false));
 
         if(InternetCheckingHelper.isHasInternet(context)) {
-            FetchFavoritesTask fetchFavoritesTask = new FetchFavoritesTask();
-            fetchFavoritesTask.setOnFetchFavoritesListener(this);
-            fetchFavoritesTask.execute();
+            new RepositoryImpl().getFavorites().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<List<FavoriteNewsModel>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) { }
+
+                        @Override
+                        public void onNext(List<FavoriteNewsModel> favoriteNewsModels) {
+                            if(favoriteNewsModels.size() > 0) recyclerView.setVisibility(View.VISIBLE);
+
+                            FavoriteNewsRecyclerAdapter newsRecyclerAdapter = new FavoriteNewsRecyclerAdapter(context, favoriteNewsModels);
+                            newsRecyclerAdapter.setOnItemClickListener(FavoriteFragment.this);
+                            recyclerView.setAdapter(newsRecyclerAdapter);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) { }
+
+                        @Override
+                        public void onComplete() { }
+                    });
         } else
             emptyText.setText(context.getString(R.string.toast_request_internet_fail));
-    }
-
-    @Override
-    public void onFetchFavorites(List<FavoriteNewsModel> favoriteNewsModels) {
-        if(favoriteNewsModels.size() > 0) recyclerView.setVisibility(View.VISIBLE);
-
-        FavoriteNewsRecyclerAdapter newsRecyclerAdapter = new FavoriteNewsRecyclerAdapter(context, favoriteNewsModels);
-        newsRecyclerAdapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(newsRecyclerAdapter);
     }
 
     @Override

@@ -4,7 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import com.project.dajver.psypractice.ui.news.task.model.NewsModel;
+import com.project.dajver.psypractice.api.models.NewsModel;
 
 /**
  * Created by gleb on 11/11/17.

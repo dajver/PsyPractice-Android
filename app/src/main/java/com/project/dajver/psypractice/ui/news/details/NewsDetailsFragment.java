@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
+import com.project.dajver.psypractice.api.RepositoryImpl;
+import com.project.dajver.psypractice.api.models.NewsDetailsModel;
 import com.project.dajver.psypractice.ui.news.details.models.DescriptionTextModel;
-import com.project.dajver.psypractice.ui.news.details.task.ParseDetailsPageTask;
-import com.project.dajver.psypractice.ui.news.details.task.models.NewsDetailsModel;
 import com.project.dajver.psypractice.ui.news.details.views.DescriptionDetailsView;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +27,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.project.dajver.psypractice.etc.Constants.BASE_URL;
 import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
@@ -35,7 +39,7 @@ import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
  * Created by gleb on 11/7/17.
  */
 
-public class NewsDetailsFragment extends BaseFragment implements ParseDetailsPageTask.OnDetailsParsedListener {
+public class NewsDetailsFragment extends BaseFragment {
 
     @BindView(R.id.title)
     TextView title;
@@ -61,31 +65,41 @@ public class NewsDetailsFragment extends BaseFragment implements ParseDetailsPag
     @Override
     public void onViewCreate(View view, Bundle savedInstanceState) {
         linkToArticle = BASE_URL + getActivity().getIntent().getExtras().getString(INTENT_LINK);
-        ParseDetailsPageTask obtainPageTask = new ParseDetailsPageTask();
-        obtainPageTask.setOnDetailsParsedListener(this);
-        obtainPageTask.execute(linkToArticle);
-    }
+        new RepositoryImpl().getNewsDetails(linkToArticle)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<NewsDetailsModel>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
 
-    @Override
-    public void onDetailsParsed(NewsDetailsModel newsModel) {
-        this.newsModel = newsModel;
-        progressBar.setVisibility(View.GONE);
-        scrollView.setVisibility(View.VISIBLE);
+                    @Override
+                    public void onNext(NewsDetailsModel newsModel) {
+                        NewsDetailsFragment.this.newsModel = newsModel;
+                        progressBar.setVisibility(View.GONE);
+                        scrollView.setVisibility(View.VISIBLE);
 
-        if(newsModel != null) {
-            title.setText(newsModel.getTitle());
-            date.setText(newsModel.getDate());
-            ArrayList<DescriptionTextModel> textModels = getDescription(newsModel.getDescription());
-            for (int i = 0; i < textModels.size(); i++) {
-                DescriptionDetailsView detailsView = new DescriptionDetailsView(context);
-                detailsView.setDescription(textModels.get(i).getText());
-                detailsView.setImage(textModels.get(i).getImage());
-                descriptionView.addView(detailsView);
-            }
+                        title.setText(newsModel.getTitle());
+                        date.setText(newsModel.getDate());
+                        ArrayList<DescriptionTextModel> textModels = getDescription(newsModel.getDescription());
+                        for (int i = 0; i < textModels.size(); i++) {
+                            DescriptionDetailsView detailsView = new DescriptionDetailsView(context);
+                            detailsView.setDescription(textModels.get(i).getText());
+                            detailsView.setImage(textModels.get(i).getImage());
+                            descriptionView.addView(detailsView);
+                        }
 
-            Picasso.with(context).load(newsModel.getImageUrl()).into(image);
-        } else
-            Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
+                        Picasso.with(context).load(newsModel.getImageUrl()).into(image);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() { }
+                });
     }
 
     private ArrayList<DescriptionTextModel> getDescription(String htmlString) {

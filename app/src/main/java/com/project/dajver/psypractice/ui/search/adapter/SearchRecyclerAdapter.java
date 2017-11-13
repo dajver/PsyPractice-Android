@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.project.dajver.psypractice.R;
-import com.project.dajver.psypractice.ui.search.task.model.SearchModel;
+import com.project.dajver.psypractice.api.models.SearchModel;
 
 import java.util.ArrayList;
 import java.util.List;

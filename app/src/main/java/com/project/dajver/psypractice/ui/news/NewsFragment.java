@@ -9,19 +9,22 @@ import android.widget.Toast;
 import com.project.dajver.psypractice.App;
 import com.project.dajver.psypractice.BaseFragment;
 import com.project.dajver.psypractice.R;
+import com.project.dajver.psypractice.api.RepositoryImpl;
+import com.project.dajver.psypractice.api.models.NewsModel;
 import com.project.dajver.psypractice.ui.favorite.db.DatabaseHelper;
 import com.project.dajver.psypractice.ui.favorite.db.model.FavoriteNewsModel;
-import com.project.dajver.psypractice.ui.favorite.task.FetchFavoritesTask;
 import com.project.dajver.psypractice.ui.news.adapter.NewsRecyclerAdapter;
 import com.project.dajver.psypractice.ui.news.adapter.view.EndlessRecyclerView;
 import com.project.dajver.psypractice.ui.news.details.NewsDetailsActivity;
-import com.project.dajver.psypractice.ui.news.task.FetchNewsTask;
-import com.project.dajver.psypractice.ui.news.task.model.NewsModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.project.dajver.psypractice.etc.Constants.INTENT_LINK;
 import static com.project.dajver.psypractice.etc.Constants.LINK_PAGE;
@@ -31,9 +34,8 @@ import static com.project.dajver.psypractice.etc.Constants.LIST_LAST_PUBLICATION
  * Created by gleb on 11/7/17.
  */
 
-public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataObtainedListener,
-        NewsRecyclerAdapter.OnItemClickListener, EndlessRecyclerView.OnLoadMoreListener,
-        SwipeRefreshLayout.OnRefreshListener, FetchFavoritesTask.OnFetchFavoritesListener {
+public class NewsFragment extends BaseFragment implements NewsRecyclerAdapter.OnItemClickListener,
+        EndlessRecyclerView.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recyclerView)
     EndlessRecyclerView recyclerView;
@@ -63,19 +65,29 @@ public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataOb
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        FetchFavoritesTask fetchFavoritesTask = new FetchFavoritesTask();
-        fetchFavoritesTask.setOnFetchFavoritesListener(this);
-        fetchFavoritesTask.execute();
+        new RepositoryImpl().getFavorites().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<FavoriteNewsModel>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
+
+                    @Override
+                    public void onNext(List<FavoriteNewsModel> favoriteNewsModels) {
+                        NewsFragment.this.favoriteNewsModels = favoriteNewsModels;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { }
+
+                    @Override
+                    public void onComplete() { }
+                });
 
         getNews(linkToPage);
     }
 
-    @Override
-    public void onFetchFavorites(List<FavoriteNewsModel> favoriteNewsModels) {
-        this.favoriteNewsModels = favoriteNewsModels;
-    }
-
     private void setupAdapter() {
+        pageCounter = 1;
         newsRecyclerAdapter = new NewsRecyclerAdapter(context);
         newsRecyclerAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(newsRecyclerAdapter);
@@ -83,26 +95,35 @@ public class NewsFragment extends BaseFragment implements FetchNewsTask.OnDataOb
     }
 
     private void getNews(String url) {
-        FetchNewsTask fetchNewsTask = new FetchNewsTask(context);
-        fetchNewsTask.setOnDataObtainedListener(this);
-        fetchNewsTask.execute(url);
-    }
+        new RepositoryImpl().getLastNews(url).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<NewsModel>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
 
-    @Override
-    public void onDataObtained(ArrayList<NewsModel> newsModels) {
-        swipeRefreshLayout.setRefreshing(false);
+                    @Override
+                    public void onNext(ArrayList<NewsModel> newsModels) {
+                        swipeRefreshLayout.setRefreshing(false);
 
-        if(newsModels != null) {
-            for (NewsModel newsModel : newsModels) {
-                for (FavoriteNewsModel model : favoriteNewsModels) {
-                    if (model.getTitle().equals(newsModel.getTitle()))
-                        newsModel.setFavorite(true);
-                }
-                newsRecyclerAdapter.addItem(newsModel);
-            }
-        } else {
-            Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
-        }
+                        for (NewsModel newsModel : newsModels) {
+                            for (FavoriteNewsModel model : favoriteNewsModels) {
+                                if (model.getTitle().equals(newsModel.getTitle()))
+                                    newsModel.setFavorite(true);
+                            }
+                            newsRecyclerAdapter.addItem(newsModel);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(context, context.getString(R.string.toast_request_internet_fail), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() { }
+                });
     }
 
     @Override

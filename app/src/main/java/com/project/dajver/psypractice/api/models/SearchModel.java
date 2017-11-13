@@ -1,4 +1,4 @@
-package com.project.dajver.psypractice.ui.search.task.model;
+package com.project.dajver.psypractice.api.models;
 
 /**
  * Created by gleb on 11/7/17.
