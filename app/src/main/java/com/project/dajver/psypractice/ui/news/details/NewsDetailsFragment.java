@@ -64,6 +64,8 @@ public class NewsDetailsFragment extends BaseFragment {
 
     @Override
     public void onViewCreate(View view, Bundle savedInstanceState) {
+        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+
         linkToArticle = BASE_URL + getActivity().getIntent().getExtras().getString(INTENT_LINK);
         new RepositoryImpl().getNewsDetails(linkToArticle)
                 .subscribeOn(Schedulers.io())
