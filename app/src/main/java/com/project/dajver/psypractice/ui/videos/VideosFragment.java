@@ -65,7 +65,8 @@ public class VideosFragment extends BaseFragment implements VideosRecyclerAdapte
     }
 
     private void getVideos(String link) {
-        new RepositoryImpl().getVideos(link).subscribeOn(Schedulers.io())
+        new RepositoryImpl().getVideos(link)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<VideosModel>>() {
                     @Override

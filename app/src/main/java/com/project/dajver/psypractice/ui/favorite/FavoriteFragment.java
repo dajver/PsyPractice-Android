@@ -49,7 +49,8 @@ public class FavoriteFragment extends BaseFragment implements FavoriteNewsRecycl
         recyclerView.setLayoutManager(new WrapperLinearLayout(context, LinearLayoutManager.VERTICAL,false));
 
         if(InternetCheckingHelper.isHasInternet(context)) {
-            new RepositoryImpl().getFavorites().subscribeOn(Schedulers.io())
+            new RepositoryImpl().getFavorites()
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<List<FavoriteNewsModel>>() {
                         @Override

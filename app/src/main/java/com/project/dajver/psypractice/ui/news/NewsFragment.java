@@ -95,7 +95,8 @@ public class NewsFragment extends BaseFragment implements NewsRecyclerAdapter.On
     }
 
     private void getNews(String url) {
-        new RepositoryImpl().getLastNews(url).subscribeOn(Schedulers.io())
+        new RepositoryImpl().getLastNews(url)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<NewsModel>>() {
                     @Override

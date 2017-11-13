@@ -97,7 +97,8 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
     }
 
     private void search(String url, String query) {
-        new RepositoryImpl().getSearchData(url + query).subscribeOn(Schedulers.io())
+        new RepositoryImpl().getSearchData(url + query)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<SearchModel>>() {
                     @Override
