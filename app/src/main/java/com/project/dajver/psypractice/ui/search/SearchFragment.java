@@ -101,6 +101,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<SearchModel>>() {
+
                     @Override
                     public void onSubscribe(Disposable d) { }
 

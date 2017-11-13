@@ -73,19 +73,11 @@ public class FavoriteNewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         public NewsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getDetailsLink());
-                }
-            });
-            remove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()), getItemCount());
-                    newsModels.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                }
+            itemView.setOnClickListener(view -> onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getDetailsLink()));
+            remove.setOnClickListener(view -> {
+                onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()), getItemCount());
+                newsModels.remove(getAdapterPosition());
+                notifyItemRemoved(getAdapterPosition());
             });
         }
     }

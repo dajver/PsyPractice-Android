@@ -7,8 +7,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.project.dajver.psypractice.BaseActivity;
@@ -101,50 +99,47 @@ public class TabsActivity extends BaseActivity implements BottomMenuView.OnTabCl
 
         DrawerAdapter adapter = new DrawerAdapter(this, drawerModels);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Fragment fragment = null;
-                switch (i) {
-                    case DRAWER_PUBLICATIONS:
-                        fragment = new NewsFragment().setInstance(LIST_LAST_PUBLICATIONS);
-                        break;
-                    case DRAWER_PSYCHO_HEALTH:
-                        fragment = new NewsFragment().setInstance(LIST_OF_PSYCHO_HEALTH);
-                        break;
-                    case DRAWER_TRAUMA:
-                        fragment = new NewsFragment().setInstance(LIST_OF_TRAUMAS);
-                        break;
-                    case DRAWER_RELATION:
-                        fragment = new NewsFragment().setInstance(LIST_OF_RELATION);
-                        break;
-                    case DRAWER_OLD_AND_YONG:
-                        fragment = new NewsFragment().setInstance(LIST_OF_OLD_AND_YONG);
-                        break;
-                    case DRAWER_DEPENDENCY:
-                        fragment = new NewsFragment().setInstance(LIST_OF_DEPENDENCY);
-                        break;
-                    case DRAWER_WORK_AND_SOCIETY:
-                        fragment = new NewsFragment().setInstance(LIST_OF_WORK_AND_SOCIETY);
-                        break;
-                    case DRAWER_BUSINESS:
-                        fragment = new NewsFragment().setInstance(LIST_OF_BUSINESS);
-                        break;
-                    case DRAWER_OTHER:
-                        fragment = new NewsFragment().setInstance(LIST_OF_OTHER);
-                        break;
-                    case DRAWER_ON_RECEPTION:
-                        fragment = new NewsFragment().setInstance(LIST_OF_ON_RECEPTION);
-                        break;
-                }
-                getSupportActionBar().setTitle(drawerModels.get(i).getTitle());
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
-                bottomNavigationView.setTabActive(TAB_HOME);
-                drawerLayout.closeDrawer(GravityCompat.START);
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Fragment fragment = null;
+            switch (i) {
+                case DRAWER_PUBLICATIONS:
+                    fragment = new NewsFragment().setInstance(LIST_LAST_PUBLICATIONS);
+                    break;
+                case DRAWER_PSYCHO_HEALTH:
+                    fragment = new NewsFragment().setInstance(LIST_OF_PSYCHO_HEALTH);
+                    break;
+                case DRAWER_TRAUMA:
+                    fragment = new NewsFragment().setInstance(LIST_OF_TRAUMAS);
+                    break;
+                case DRAWER_RELATION:
+                    fragment = new NewsFragment().setInstance(LIST_OF_RELATION);
+                    break;
+                case DRAWER_OLD_AND_YONG:
+                    fragment = new NewsFragment().setInstance(LIST_OF_OLD_AND_YONG);
+                    break;
+                case DRAWER_DEPENDENCY:
+                    fragment = new NewsFragment().setInstance(LIST_OF_DEPENDENCY);
+                    break;
+                case DRAWER_WORK_AND_SOCIETY:
+                    fragment = new NewsFragment().setInstance(LIST_OF_WORK_AND_SOCIETY);
+                    break;
+                case DRAWER_BUSINESS:
+                    fragment = new NewsFragment().setInstance(LIST_OF_BUSINESS);
+                    break;
+                case DRAWER_OTHER:
+                    fragment = new NewsFragment().setInstance(LIST_OF_OTHER);
+                    break;
+                case DRAWER_ON_RECEPTION:
+                    fragment = new NewsFragment().setInstance(LIST_OF_ON_RECEPTION);
+                    break;
             }
+            getSupportActionBar().setTitle(drawerModels.get(i).getTitle());
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+            bottomNavigationView.setTabActive(TAB_HOME);
+            drawerLayout.closeDrawer(GravityCompat.START);
         });
         drawerToggle.syncState();
     }

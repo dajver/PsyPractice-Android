@@ -81,24 +81,16 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public NewsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getArticleDetailsLink());
-                }
-            });
-            favorite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(newsModels.get(getAdapterPosition()).isFavorite()) {
-                        newsModels.get(getAdapterPosition()).setFavorite(false);
-                        favorite.setImageResource(R.mipmap.ic_favorite_gray);
-                        onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()));
-                    } else {
-                        newsModels.get(getAdapterPosition()).setFavorite(true);
-                        favorite.setImageResource(R.mipmap.ic_favorite_blue_selected);
-                        onItemClickListener.onAddFavorite(newsModels.get(getAdapterPosition()));
-                    }
+            itemView.setOnClickListener(view -> onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getArticleDetailsLink()));
+            favorite.setOnClickListener(view -> {
+                if(newsModels.get(getAdapterPosition()).isFavorite()) {
+                    newsModels.get(getAdapterPosition()).setFavorite(false);
+                    favorite.setImageResource(R.mipmap.ic_favorite_gray);
+                    onItemClickListener.onDeleteFavorite(newsModels.get(getAdapterPosition()));
+                } else {
+                    newsModels.get(getAdapterPosition()).setFavorite(true);
+                    favorite.setImageResource(R.mipmap.ic_favorite_blue_selected);
+                    onItemClickListener.onAddFavorite(newsModels.get(getAdapterPosition()));
                 }
             });
         }

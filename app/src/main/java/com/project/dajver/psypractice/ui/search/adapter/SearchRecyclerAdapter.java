@@ -67,12 +67,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getArticleDetailsLink());
-                }
-            });
+            itemView.setOnClickListener(view -> onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getArticleDetailsLink()));
         }
     }
 

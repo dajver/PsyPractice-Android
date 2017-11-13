@@ -71,6 +71,7 @@ public class NewsDetailsFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<NewsDetailsModel>() {
+
                     @Override
                     public void onSubscribe(Disposable d) { }
 

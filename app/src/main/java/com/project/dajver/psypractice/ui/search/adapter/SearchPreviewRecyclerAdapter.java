@@ -59,12 +59,7 @@ public class SearchPreviewRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onPreviewItemClickListener.onPreviewItemClick(stringList.get(getAdapterPosition()));
-                }
-            });
+            itemView.setOnClickListener(view -> onPreviewItemClickListener.onPreviewItemClick(stringList.get(getAdapterPosition())));
         }
     }
 

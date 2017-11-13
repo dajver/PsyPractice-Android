@@ -99,6 +99,7 @@ public class NewsFragment extends BaseFragment implements NewsRecyclerAdapter.On
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<NewsModel>>() {
+
                     @Override
                     public void onSubscribe(Disposable d) { }
 

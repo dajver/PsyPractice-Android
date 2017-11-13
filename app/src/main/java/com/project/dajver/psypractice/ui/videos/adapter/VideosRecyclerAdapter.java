@@ -69,12 +69,7 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public VideosViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getVideoDetailsLink());
-                }
-            });
+            itemView.setOnClickListener(view -> onItemClickListener.onItemClick(newsModels.get(getAdapterPosition()).getVideoDetailsLink()));
         }
     }
 
