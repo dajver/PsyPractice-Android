@@ -50,7 +50,6 @@ public class VideosFragment extends BaseFragment implements VideosRecyclerAdapte
     public void onViewCreate(View view, Bundle savedInstanceState) {
         setupAdapter();
 
-        swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         getVideos(LIST_VIDEOS_LINK);
@@ -65,6 +64,8 @@ public class VideosFragment extends BaseFragment implements VideosRecyclerAdapte
     }
 
     private void getVideos(String link) {
+        swipeRefreshLayout.setRefreshing(true);
+
         new RepositoryImpl().getVideos(link)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

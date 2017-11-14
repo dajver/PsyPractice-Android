@@ -62,7 +62,6 @@ public class NewsFragment extends BaseFragment implements NewsRecyclerAdapter.On
     public void onViewCreate(View view, Bundle savedInstanceState) {
         setupAdapter();
 
-        swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         new RepositoryImpl().getFavorites().subscribeOn(Schedulers.io())
@@ -95,6 +94,8 @@ public class NewsFragment extends BaseFragment implements NewsRecyclerAdapter.On
     }
 
     private void getNews(String url) {
+        swipeRefreshLayout.setRefreshing(true);
+
         new RepositoryImpl().getLastNews(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
