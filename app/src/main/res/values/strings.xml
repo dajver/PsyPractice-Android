@@ -1,22 +1,27 @@
 <resources>
     <string name="app_name">Psy Practice</string>
 
-    <string name="news.title">Публикации</string>
-    <string name="news.details.title">Детали публикации</string>
-    <string name="video.details.title">Просмотр видео</string>
+    <string name="news_title">Публикации</string>
+    <string name="news_details_title">Детали публикации</string>
+    <string name="video_details_title">Просмотр видео</string>
 
-    <string name="tabs.title.publications">@string/news.title</string>
-    <string name="tabs.title.specialists">Специалисты</string>
-    <string name="tabs.title.videos">Видео</string>
-    <string name="tabs.title.events">Мероприятия</string>
-    <string name="tabs.title.search">Поиск</string>
-    <string name="tabs.title.favorite">Избранное</string>
+    <string name="tabs_title_publications">@string/news_title</string>
+    <string name="tabs_title_specialists">Специалисты</string>
+    <string name="tabs_title_videos">Видео</string>
+    <string name="tabs_title_events">Мероприятия</string>
+    <string name="tabs_title_search">Поиск</string>
+    <string name="tabs_title_favorite">Избранное</string>
 
-    <string name="search.fail.empty">К сожалению, на ваш поисковый запрос ничего не найдено.</string>
+    <string name="search_fail_empty">К сожалению, на ваш поисковый запрос ничего не найдено.</string>
 
-    <string name="toast.request.internet.fail">Интернет отключен, для начала попробуйте включить его, а после обновите список потянув его вниз.</string>
+    <string name="toast_request_internet_fail">Интернет отключен, для начала попробуйте включить его, а после обновите список потянув его вниз.</string>
 
-    <string name="favrites.list.empty.text">Ваш список избранного пуст, добавьте в него статьи нажав на звездочку ★ рядом с названием статьи</string>
+    <string name="favrites_list_empty_text">Ваш список избранного пуст, добавьте в него статьи нажав на звездочку ★ рядом с названием статьи</string>
+
+    <string name="dialog_not_in_app_title">Вы покидаете наше приложение</string>
+    <string name="dialog_not_in_app_text">Эта статья написана на другом сайте который не относится к нашему приложению, вы уверены что хотите открыть ее в браузере?</string>
+    <string name="dialog_not_in_app_yes">Yes</string>
+    <string name="dialog_not_in_app_no">No</string>
 
     <string-array name="drawerItems">
         <item>Психологическое здоровье</item>

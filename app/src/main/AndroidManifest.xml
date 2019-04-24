@@ -21,15 +21,15 @@
         </activity>
 
         <activity android:name=".ui.TabsActivity"
-            android:label="@string/news.title"/>
+            android:label="@string/news_title"/>
 
         <activity
             android:name=".ui.news.details.NewsDetailsActivity"
-            android:label="@string/news.details.title"/>
+            android:label="@string/news_details_title"/>
 
         <activity
             android:name=".ui.videos.details.VideoDetailsActivity"
-            android:label="@string/video.details.title"/>
+            android:label="@string/video_details_title"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3af4660cfba4a5fafc6920cf1d9ec5aa100772ca" />

@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#2bbc9e</color>
     <color name="colorAccent">#fff</color>
     <color name="divider">#EEEEEE</color>
+    <color name="colorDialogButtons">#1664A2</color>
 </resources>

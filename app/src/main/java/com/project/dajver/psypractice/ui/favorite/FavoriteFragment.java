@@ -1,7 +1,9 @@
 package com.project.dajver.psypractice.ui.favorite;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -77,9 +79,23 @@ public class FavoriteFragment extends BaseFragment implements FavoriteNewsRecycl
 
     @Override
     public void onItemClick(String detailsLink) {
-        Intent intent = new Intent(context, NewsDetailsActivity.class);
-        intent.putExtra(INTENT_LINK, detailsLink);
-        startActivity(intent);
+        if(!detailsLink.startsWith("/")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(getString(R.string.dialog_not_in_app_title))
+                    .setMessage(getString(R.string.dialog_not_in_app_text))
+                    .setCancelable(false)
+                    .setNegativeButton(getString(R.string.dialog_not_in_app_no), (dialog, id) -> dialog.cancel())
+                    .setPositiveButton(getString(R.string.dialog_not_in_app_yes), (dialog, id) -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(detailsLink));
+                        startActivity(browserIntent);
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else {
+            Intent intent = new Intent(context, NewsDetailsActivity.class);
+            intent.putExtra(INTENT_LINK, detailsLink);
+            startActivity(intent);
+        }
     }
 
     @Override
